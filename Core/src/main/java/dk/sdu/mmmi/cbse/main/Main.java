@@ -113,9 +113,9 @@ public class Main extends Application {
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
         }
-//        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-//            postEntityProcessorService.process(gameData, world);
-//        }
+        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+            postEntityProcessorService.process(gameData, world);
+        }
     }
 
     private void draw() {
@@ -146,6 +146,13 @@ public class Main extends Application {
                 gameWindow.getChildren().remove(polygon);
                 toRemove.add(entity);
             }
+
+            if (!entity.getEntityState()) {
+                gameWindow.getChildren().remove(polygon);
+                toRemove.add(entity);
+            }
+
+
             toRemove.forEach(polygons::remove);
             toRemove.forEach(world::removeEntity);
 

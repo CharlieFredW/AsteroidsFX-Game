@@ -30,7 +30,8 @@ public class EnemyPlugin implements IGamePluginService {
 
         Random r = new Random();
 
-        Entity enemyShip = new Enemy();
+        Entity enemyShip = new Enemy(2);
+        System.out.println(enemyShip.getLife() + "this is initial ship life");
         enemyShip.setPolygonCoordinates(8, -5, 5, -5, 0, -7, -5, -7, -8, -5, -8, -3,
                 -5, -3, 0, -1, 5, -1, 8, -3
 

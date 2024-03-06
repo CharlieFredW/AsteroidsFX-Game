@@ -83,7 +83,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
     }
 
-    public void  autoShoot(World world, GameData gameData, Entity enemy, int shoot) {
+    public void autoShoot(World world, GameData gameData, Entity enemy, int shoot) {
 
         if (shoot == 3) {
             getBulletSPIs().forEach(bulletSPI -> {

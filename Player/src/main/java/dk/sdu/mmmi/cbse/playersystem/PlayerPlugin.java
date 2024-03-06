@@ -21,7 +21,7 @@ public class PlayerPlugin implements IGamePluginService {
 
     private Entity createPlayerShip(GameData gameData) {
 
-        Entity playerShip = new Player();
+        Entity playerShip = new Player(3);
         playerShip.setPolygonCoordinates( 12, -1, 8, -1, 8, -3, 6, -3, 6, -5, -2,
                 -5, -2, -7, 0, -7, 0, -9, -10, -9, -10, -5, -8, -5, -8, -3, -6, -3,
                 -6, -1, -10, -1, -10, 1, -6, 1, -6, 3, -8, 3, -8, 5, -10, 5, -10, 9,

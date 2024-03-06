@@ -13,6 +13,14 @@ public class Entity implements Serializable {
     private double rotation;
 
     private boolean bulletState = true;
+
+    private boolean entityState = true;
+
+    private int life;
+
+    public Entity(int life) {
+        this.life = life;
+    }
             
 
     public String getID() {
@@ -37,7 +45,6 @@ public class Entity implements Serializable {
         return x;
     }
 
-    
     public void setY(double y) {
         this.y = y;
     }
@@ -57,6 +64,15 @@ public class Entity implements Serializable {
     public void setBulletState(boolean state) {this.bulletState = state;}
 
     public boolean getBulletState () {return bulletState;}
+
+    public boolean setEntityState(boolean state) {return this.entityState = state;}
+    public boolean getEntityState() {return entityState;}
+
+    public int getLife() {
+        return life;
+    }
+
+    public void removeLife() {life = life - 1;}
         
 
 }
