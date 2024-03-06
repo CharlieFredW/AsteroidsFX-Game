@@ -11,6 +11,8 @@ public class Entity implements Serializable {
     private double x;
     private double y;
     private double rotation;
+
+    private boolean bulletState = true;
             
 
     public String getID() {
@@ -51,6 +53,10 @@ public class Entity implements Serializable {
     public double getRotation() {
         return rotation;
     }
+
+    public void setBulletState(boolean state) {this.bulletState = state;}
+
+    public boolean getBulletState () {return bulletState;}
         
 
 }

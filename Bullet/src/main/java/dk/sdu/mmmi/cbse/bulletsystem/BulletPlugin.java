@@ -15,6 +15,7 @@ public class BulletPlugin implements IGamePluginService {
 
     }
 
+
     @Override
     public void stop(GameData gameData, World world) {
         for (Entity e : world.getEntities()) {

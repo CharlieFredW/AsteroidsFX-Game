@@ -13,7 +13,11 @@ import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
 
 
+
 public class PlayerControlSystem implements IEntityProcessingService {
+
+
+    double speed = 1.0;
 
     @Override
     public void process(GameData gameData, World world) {
@@ -26,11 +30,19 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setRotation(player.getRotation() + 5);                
             }
             if (gameData.getKeys().isDown(GameKeys.UP)) {
-                double changeX = Math.cos(Math.toRadians(player.getRotation()));
-                double changeY = Math.sin(Math.toRadians(player.getRotation()));
+                double changeX = speed * Math.cos(Math.toRadians(player.getRotation()));
+                double changeY = speed * Math.sin(Math.toRadians(player.getRotation()));
                 player.setX(player.getX() + changeX);
                 player.setY(player.getY() + changeY);
             }
+
+            if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
+                getBulletSPIs().forEach( bulletSPI -> {
+                    Entity bullet = bulletSPI.createBullet(player, gameData);
+                    world.addEntity(bullet);
+                });
+            }
+
             
         if (player.getX() < 0) {
             player.setX(1);
