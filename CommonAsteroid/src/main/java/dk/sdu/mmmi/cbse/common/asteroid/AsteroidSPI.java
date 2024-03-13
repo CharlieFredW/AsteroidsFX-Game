@@ -5,5 +5,5 @@ import dk.sdu.mmmi.cbse.common.data.World;
 
 public interface AsteroidSPI {
 
-    public void asteroidSplit(Entity oldAsteroid, World world);
+    void splitAsteroids(World world, Asteroid asteroid);
 }

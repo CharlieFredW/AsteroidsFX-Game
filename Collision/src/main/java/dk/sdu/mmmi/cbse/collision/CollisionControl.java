@@ -1,14 +1,20 @@
 package dk.sdu.mmmi.cbse.collision;
 
 import dk.sdu.mmmi.cbse.common.asteroid.Asteroid;
+import dk.sdu.mmmi.cbse.common.asteroid.AsteroidSPI;
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
+import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.ServiceLoader;
+
+import static java.util.stream.Collectors.toList;
 
 public class CollisionControl implements IPostEntityProcessingService {
     @Override
@@ -78,8 +84,10 @@ public class CollisionControl implements IPostEntityProcessingService {
             }
 
             if (entity instanceof Bullet && entity2 instanceof Asteroid) {
-                Asteroid asteroid = (Asteroid) entity2;
-                asteroid.splitAsteroid(world);
+                getAsteroidSPIs().forEach( asteroidSPI ->  {
+                    Asteroid asteroid = (Asteroid) entity2;
+                    asteroidSPI.splitAsteroids(world, asteroid);
+                        });
                 return true;
             }
 
@@ -93,6 +101,10 @@ public class CollisionControl implements IPostEntityProcessingService {
 
         return false;
 
+    }
+
+    private Collection<? extends AsteroidSPI> getAsteroidSPIs() {
+        return ServiceLoader.load(AsteroidSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
 }
