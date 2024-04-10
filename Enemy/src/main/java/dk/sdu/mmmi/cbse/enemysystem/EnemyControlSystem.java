@@ -14,17 +14,16 @@ import static java.util.stream.Collectors.toList;
 public class EnemyControlSystem implements IEntityProcessingService {
 
     Random r = new Random();
-
-    int randomNumMove = r.nextInt((7-1) + 1) + 1;
-
-    int randomNumShoot = r.nextInt((80-1) + 1) + 1;
-
-    double randomRot = r.nextDouble(361);
-
     double speed = 0.5;
 
     @Override
     public void process(GameData gameData, World world) {
+
+        int randomNumMove = r.nextInt((7-1) + 1) + 1;
+
+        int randomNumShoot = r.nextInt((80-1) + 1) + 1;
+
+        double randomRot = r.nextDouble(361);
 
         for (Entity enemy : world.getEntities(Enemy.class)) {
 

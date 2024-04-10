@@ -11,11 +11,11 @@ import java.util.Random;
 public class AsteroidControlSystem implements IEntityProcessingService {
 
     Random r = new Random();
-    double randomRot = r.nextDouble(361);
-    double speed = 0.2;
 
     @Override
     public void process(GameData gameData, World world) {
+
+        double randomRot = r.nextDouble(361);
 
         for (Entity asteroid : world.getEntities(Asteroid.class)) {
 
@@ -52,6 +52,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     }
 
     private void autoPresUp(Entity asteroid) {
+        double speed = 0.2;
         double changeX = speed * Math.cos(Math.toRadians(asteroid.getRotation()));
         double changeY = speed * Math.sin(Math.toRadians(asteroid.getRotation()));
         asteroid.setX(asteroid.getX() + changeX);
