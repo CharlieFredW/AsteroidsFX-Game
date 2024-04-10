@@ -7,6 +7,14 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,9 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -37,7 +50,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        Text text = new Text(10, 20, "Destroyed asteroids: " + getScoreFromClient("http://localhost:8080/score"));
+
+        // set time for updating score
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(() -> {
+            String score = getScoreFromClient("http://localhost:8080/score");
+            Platform.runLater(() -> {
+                text.setText("Destroyed asteroids: " + score);
+            });
+        }, 0, 1, TimeUnit.SECONDS);
+
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
 
@@ -157,6 +180,27 @@ public class Main extends Application {
             toRemove.forEach(world::removeEntity);
 
         }
+    }
+
+    public String getScoreFromClient(String url) {
+        StringBuilder result = new StringBuilder();
+        try {
+            URL scoreUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) scoreUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            while ((line = read.readLine()) != null) {
+                result.append(line);
+            }
+            read.close();
+            connection.disconnect();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result.toString();
     }
 
     private Collection<? extends IGamePluginService> getPluginServices() {

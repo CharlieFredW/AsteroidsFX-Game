@@ -72,7 +72,14 @@ public class Entity implements Serializable {
         return life;
     }
 
-    public void removeLife() {life = life - 1;}
-        
+    public void removeLife() {
+        life = life - 1;
+        if (life == 0) {
+            onLifeZero();
+        }
+    }
+
+    protected void onLifeZero() {
+    }
 
 }

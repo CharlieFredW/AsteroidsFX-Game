@@ -9,6 +9,10 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -84,10 +88,20 @@ public class CollisionControl implements IPostEntityProcessingService {
             }
 
             if (entity instanceof Bullet && entity2 instanceof Asteroid) {
+                updateScoreOnClient("http://localhost:8080/update-score?point=1");
                 getAsteroidSPIs().forEach( asteroidSPI ->  {
                     Asteroid asteroid = (Asteroid) entity2;
                     asteroidSPI.splitAsteroids(world, asteroid);
                         });
+                return true;
+            }
+
+            if (entity2 instanceof Bullet && entity instanceof Asteroid) {
+                updateScoreOnClient("http://localhost:8080/update-score?point=1");
+                getAsteroidSPIs().forEach( asteroidSPI ->  {
+                    Asteroid asteroid = (Asteroid) entity;
+                    asteroidSPI.splitAsteroids(world, asteroid);
+                });
                 return true;
             }
 
@@ -101,6 +115,25 @@ public class CollisionControl implements IPostEntityProcessingService {
 
         return false;
 
+    }
+
+    public void updateScoreOnClient(String url) {
+        try {
+            URL updateUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) updateUrl.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Score updated successfully.");
+            } else {
+                System.out.println("Failed to update score. Response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private Collection<? extends AsteroidSPI> getAsteroidSPIs() {
