@@ -91,6 +91,14 @@ public class CollisionControl implements IPostEntityProcessingService {
                 return true;
             }
 
+            if (entity2 instanceof Bullet && entity instanceof Asteroid) {
+                getAsteroidSPIs().forEach( asteroidSPI ->  {
+                    Asteroid asteroid = (Asteroid) entity;
+                    asteroidSPI.splitAsteroids(world, asteroid);
+                });
+                return true;
+            }
+
             if ( entity instanceof Asteroid && entity2 instanceof Asteroid) {
                 return false;
             }
