@@ -29,15 +29,17 @@ public class CollisionControl implements IPostEntityProcessingService {
                 if (intersects(e1, e2, world)) {
 
                     e1.removeLife();
-                    System.out.println(e1.getLife() + " This is entity 1 life");
+                    System.out.println("entity1 has life left: " + e1.getLife());
                     e2.removeLife();
-                    System.out.println(e2.getLife() + " This is entity 2 life");
+                    System.out.println("entity2 has life left: " + e2.getLife());
 
                     if (e2.getLife() == 0) {
                         e2.setEntityState(false);
+                        System.out.println("Entity2 state: " + e2.getEntityState());
                     }
                     if (e1.getLife() == 0) {
                         e1.setEntityState(false);
+                        System.out.println("Entity1 state: " + e1.getEntityState());
                     }
                 }
             }
