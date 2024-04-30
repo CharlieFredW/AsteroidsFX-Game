@@ -178,16 +178,10 @@ public class Main extends Application {
 
     private static ModuleLayer createLayer() {
         ModuleFinder finder = ModuleFinder.of(Paths.get("plugins"));
-        System.out.println(Paths.get("plugins"));
         ModuleLayer parent = ModuleLayer.boot();
-
-        List<String> plugins = finder
-                .findAll()
-                .stream()
-                .map(ModuleReference::descriptor)
+        List<String> plugins = finder.findAll().stream().map(ModuleReference::descriptor)
                 .map(ModuleDescriptor::name)
                 .collect(Collectors.toList());
-
         Configuration cf = parent.configuration().resolve(finder, ModuleFinder.of(), plugins);
         return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
     }
