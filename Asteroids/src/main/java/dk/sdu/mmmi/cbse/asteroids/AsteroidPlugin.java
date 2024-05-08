@@ -7,10 +7,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class AsteroidPlugin implements IGamePluginService, AsteroidSPI {
 
@@ -23,12 +20,17 @@ public class AsteroidPlugin implements IGamePluginService, AsteroidSPI {
     @Override
     public void start(GameData gameData, World world) {
 
-        int randomNum = r.nextInt(5, 15);
-
-        for (int i = 0; i < randomNum; i++) {
-            Entity asteroid = createAsteroid(gameData);
-            world.addEntity(asteroid);
-        }
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                int randomNum = r.nextInt(5, 15);
+                for (int i = 0; i < randomNum; i++) {
+                    Entity asteroid = createAsteroid(gameData);
+                    world.addEntity(asteroid);
+                }
+            }
+        }, 0, 15000);
 
     }
 

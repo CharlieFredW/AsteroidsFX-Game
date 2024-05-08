@@ -6,7 +6,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Asteroid extends Entity{
+public class Asteroid extends Entity {
 
     public int size;
 

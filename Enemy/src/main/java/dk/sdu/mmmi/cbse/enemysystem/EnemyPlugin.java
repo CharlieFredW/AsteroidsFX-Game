@@ -6,6 +6,8 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class EnemyPlugin implements IGamePluginService {
 
@@ -19,11 +21,14 @@ public class EnemyPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {
 
-        // Add entities to the world
-        enemy1 = createEnemyShip(gameData);
-        enemy2 = createEnemyShip(gameData);
-        world.addEntity(enemy1);
-        world.addEntity(enemy2);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Entity enemyShip = createEnemyShip(gameData);
+                world.addEntity(enemyShip);
+            }
+        }, 0, 10000);
     }
 
     private Entity createEnemyShip(GameData gameData) {
