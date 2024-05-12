@@ -11,9 +11,9 @@ import java.util.ServiceLoader;
 public class ServiceLoaderSingleton {
 
     private static ServiceLoaderSingleton instance;
-    private List<IGamePluginService> gamePluginServices;
-    private List<IEntityProcessingService> entityProcessingServices;
-    private List<IPostEntityProcessingService> postEntityProcessingServices;
+    private final List<IGamePluginService> gamePluginServices;
+    private final List<IEntityProcessingService> entityProcessingServices;
+    private final List<IPostEntityProcessingService> postEntityProcessingServices;
 
     // create loader singleton constructor
     private ServiceLoaderSingleton() {
@@ -41,7 +41,6 @@ public class ServiceLoaderSingleton {
     public List<IPostEntityProcessingService> getPostEntityProcessingServices() {
         return postEntityProcessingServices;
     }
-
 
     // load implementations of service interfaces using serviceloader
     private <T> List<T> loadServices(Class<T> serviceClass) {
