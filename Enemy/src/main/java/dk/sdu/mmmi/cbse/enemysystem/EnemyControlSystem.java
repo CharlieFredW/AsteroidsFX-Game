@@ -13,8 +13,8 @@ import static java.util.stream.Collectors.toList;
 
 public class EnemyControlSystem implements IEntityProcessingService {
 
-    Random r = new Random();
-    double speed = 0.5;
+    private Random r = new Random();
+    private double speed = 0.5;
 
     @Override
     public void process(GameData gameData, World world) {

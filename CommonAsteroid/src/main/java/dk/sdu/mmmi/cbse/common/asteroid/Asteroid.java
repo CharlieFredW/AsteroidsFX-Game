@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Asteroid extends Entity {
 
-    public int size;
+    private int size;
 
     public int getSize() {
         return size;

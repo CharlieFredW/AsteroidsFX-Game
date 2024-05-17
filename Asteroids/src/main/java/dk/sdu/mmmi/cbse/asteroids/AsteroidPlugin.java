@@ -14,7 +14,7 @@ public class AsteroidPlugin implements IGamePluginService, AsteroidSPI {
     public AsteroidPlugin() {
     }
 
-    Random r = new Random();
+    private Random r = new Random();
 
 
     @Override

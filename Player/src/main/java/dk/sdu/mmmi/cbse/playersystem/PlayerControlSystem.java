@@ -16,8 +16,7 @@ import static java.util.stream.Collectors.toList;
 
 public class PlayerControlSystem implements IEntityProcessingService {
 
-
-    double speed = 1.0;
+    private double speed = 1.0;
 
     @Override
     public void process(GameData gameData, World world) {
